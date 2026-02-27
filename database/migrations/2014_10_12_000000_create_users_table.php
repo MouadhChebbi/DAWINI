@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('Speciality')->nullable();
             $table->enum('role', ['doctor','patient'])->default('patient');
-            $table->enum('gender',['male','female']);
+            $table->string('gender')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
