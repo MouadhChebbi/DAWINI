@@ -28,6 +28,10 @@ class ResetPwdController extends Controller
             }
             $expiredAt = strtotime($record->created_at) + 600;
             if (time() > $expiredAt) {
+                DB::table('password_reset_codes')
+                    ->where('email', $request->input('email'))
+                    ->where('code', $code)
+                    ->delete();
                 return response()->json([
                     'message' => 'Code has expired'
                 ], 400);
@@ -35,7 +39,10 @@ class ResetPwdController extends Controller
     
         $user->password = bcrypt($request->input('new_password'));
         $user->save();
-
+            DB::table('password_reset_codes')
+                ->where('email', $request->input('email'))
+                ->where('code', $code)
+                ->delete();
         return response()->json([
             'message' => 'Password reset successful',
             'user' => $user
