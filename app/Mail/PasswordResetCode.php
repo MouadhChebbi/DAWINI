@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Address;
 
 class PasswordResetCode extends Mailable
 {
@@ -16,9 +17,10 @@ class PasswordResetCode extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public $code;
+    public function __construct($code)
     {
-        //
+        $this->code = $code;
     }
 
     /**
@@ -28,6 +30,7 @@ class PasswordResetCode extends Mailable
     {
         return new Envelope(
             subject: 'Password Reset Code',
+            from: new Address('mouadhnwa3@gmail.com', 'Dawini Team'),
         );
     }
 
@@ -37,7 +40,7 @@ class PasswordResetCode extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.password_reset_code',
+            view: 'password_reset_code',
         );
     }
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('password_reset_codes', function (Blueprint $table) {
         $table->id();
         $table->string('email')->index();
-        $table->string('code'); // code à 6 chiffres
+        $table->string('code');
         $table->timestamp('created_at')->nullable();
 
         });

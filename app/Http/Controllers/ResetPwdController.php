@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ResetPwdController extends Controller
 {
@@ -15,6 +16,23 @@ class ResetPwdController extends Controller
                 'message' => 'User not found'
             ], 404);
         }
+            $code = $request->input('code');
+            $record = DB::table('password_reset_codes')
+                ->where('email', $request->input('email'))
+                ->where('code', $code)
+                ->first();
+            if (!$record) {
+                return response()->json([
+                    'message' => 'Invalid code'
+                ], 400);
+            }
+            $expiredAt = strtotime($record->created_at) + 600;
+            if (time() > $expiredAt) {
+                return response()->json([
+                    'message' => 'Code has expired'
+                ], 400);
+            }
+    
         $user->password = bcrypt($request->input('new_password'));
         $user->save();
 
