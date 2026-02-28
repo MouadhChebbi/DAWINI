@@ -56,7 +56,7 @@
                             
                             <!-- SMALL CONTACT / HELP TEXT -->
                             <p style="font-size:13px; color:#8a9bb0; line-height:1.5; margin:15px 0 0 0; text-align:left;">
-                                📬 Pour toute assistance, contactez notre <a href="#" style="color:#2663a6; text-decoration:none; border-bottom:1px dotted #2663a6;">support</a>.
+                                📬 Pour toute assistance, contactez notre <a href="mailto:mouadhnwa3@gmail.com" style="color:#2663a6; text-decoration:none; border-bottom:1px dotted #2663a6;">support</a>.
                             </p>
                         </td>
                     </tr>
