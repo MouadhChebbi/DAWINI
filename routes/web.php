@@ -14,9 +14,10 @@ use App\mail\PasswordResetCode;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('signup');
 });
-Route::get('/mailable', function () {
- 
-    return new App\Mail\PasswordResetCode(1234);
+
+Route::get('/loginpage', function () {
+    return view('login');
 });
+

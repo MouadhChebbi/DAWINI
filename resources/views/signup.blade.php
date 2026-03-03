@@ -1,123 +1,166 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Signup Form</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 500px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #f4f4f4;
-    }
-    h2 { text-align: center; color: #333; }
-    label { display: block; margin-top: 12px; font-weight: bold; }
-    input, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 10px;
-      background-color: #ff6c37;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover { background-color: #e55a28; }
-    #response {
-      margin-top: 20px;
-      padding: 12px;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
-  </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DAWINI — Sign Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  @vite('resources/css/signup.css')
+  @vite('resources/js/signup.js')
 </head>
+<script src="/public/js/signup.js"></script>
 <body>
-  <h2>Signup</h2>
-  <form id="signupForm">
-    <label>First Name</label>
-    <input type="text" id="name" value="Chebbi" required>
+  <div class="bg"></div>
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <!-- NAV -->
+  <nav>
+    <a href="dawini-concept.html" class="nav-logo">DAWINI</a>
+    <div class="nav-search">
+      <svg width="14" height="14" fill="none" stroke="#7fb3c8" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search your Doctor"/>
+    </div>
+    <ul class="nav-links">
+      <li class="hide-sm"><a href="dawini-concept.html">Home</a></li>
+      <li class="hide-sm"><a href="dawini-usecase.html">Filter Doctors</a></li>
+      <li><a href="/" class="active">Sign Up</a></li>
+      <li><a href="/loginpage">Login</a></li>
+    </ul>
+  </nav>
 
-    <label>Last Name</label>
-    <input type="text" id="last_name" value="Mouadh" required>
+  <main>
+    <div class="card">
+      <!-- LEFT -->
+      <div class="panel-left">
+        <div class="brand">DAWINI</div>
+        <p class="tagline">Your trusted digital bridge connecting doctors and patients</p>
+        <div class="role-label">Sign up as?</div>
+        <div class="role-btns">
+          <button class="role-btn" onclick="this.classList.add('active');this.parentElement.querySelector('.role-btn:last-child').classList.remove('active')">Doctor</button>
+          <button class="role-btn active" onclick="this.classList.add('active');this.parentElement.querySelector('.role-btn:first-child').classList.remove('active')">Patient</button>
+        </div>
+        <div class="illus">
+          <!-- Medical eye / doctor illustration as SVG -->
+          <svg viewBox="0 0 300 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Eye -->
+            <ellipse cx="150" cy="100" rx="90" ry="55" fill="rgba(46,207,191,.12)" stroke="rgba(46,207,191,.5)" stroke-width="2"/>
+            <circle cx="150" cy="100" r="32" fill="rgba(22,51,82,.8)" stroke="rgba(46,207,191,.6)" stroke-width="2"/>
+            <circle cx="150" cy="100" r="18" fill="rgba(46,207,191,.25)"/>
+            <circle cx="150" cy="100" r="9" fill="rgba(13,31,51,.9)"/>
+            <circle cx="155" cy="95" r="3" fill="rgba(255,255,255,.4)"/>
+            <!-- Doctor figures simplified -->
+            <!-- Doc 1 left -->
+            <rect x="42" y="130" width="18" height="40" rx="4" fill="rgba(255,255,255,.08)" stroke="rgba(46,207,191,.25)" stroke-width="1"/>
+            <circle cx="51" cy="122" r="9" fill="rgba(255,255,255,.1)" stroke="rgba(46,207,191,.3)" stroke-width="1"/>
+            <!-- Doc 2 right -->
+            <rect x="238" y="130" width="18" height="40" rx="4" fill="rgba(240,100,73,.12)" stroke="rgba(240,100,73,.25)" stroke-width="1"/>
+            <circle cx="247" cy="122" r="9" fill="rgba(240,100,73,.15)" stroke="rgba(240,100,73,.3)" stroke-width="1"/>
+            <!-- Screen/device bottom -->
+            <rect x="110" y="165" width="80" height="50" rx="6" fill="rgba(46,207,191,.08)" stroke="rgba(46,207,191,.3)" stroke-width="1"/>
+            <rect x="120" y="173" width="60" height="34" rx="3" fill="rgba(46,207,191,.12)"/>
+            <!-- Cross symbol -->
+            <rect x="143" y="182" width="14" height="4" rx="2" fill="#2ecfbf" opacity=".6"/>
+            <rect x="148" y="177" width="4" height="14" rx="2" fill="#2ecfbf" opacity=".6"/>
+            <!-- Colorful data bars -->
+            <rect x="30" y="80" width="16" height="6" rx="2" fill="rgba(46,207,191,.3)"/>
+            <rect x="30" y="90" width="10" height="6" rx="2" fill="rgba(240,100,73,.3)"/>
+            <rect x="30" y="100" width="20" height="6" rx="2" fill="rgba(199,163,78,.3)"/>
+          </svg>
+        </div>
+      </div>
 
-    <label>Email</label>
-    <input type="email" id="email" value="" placeholder="auto-generated on submit" required>
+      <!-- RIGHT / FORM -->
+      <div class="panel-right">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>NOM</label>
+            <input type="text" placeholder="Jhonson" id="name" >
+            <small class="error" id="name-error"></small>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Smith" id="lastname" >
+            <small class="error" id="lastname-error"></small>
+          </div>
+          <div class="form-group form-full">
+            <label>Email</label>
+            <input type="email" placeholder="example@gmail.com" id="mail" >
+            <small class="error" id="mail-error"></small>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" placeholder="••••••••••" id="password" >
+            <small class="error" id="password-error"></small>
+          </div>
+          <div class="form-group">
+            <label>Confirm password</label>
+            <input type="password" placeholder="••••••••••" id="confirmPassword">
+            <small id="confirmPassword-error" class="error"></small>
+          </div>
+                    <div class="form-group">
+            <label>Phone number</label>
+            <input type="tel" placeholder="xx xxx xxx" id="phone"/>
+            <small class="error" id="phone-error"></small>
+          </div>
+          <!-- SPECIALTY + GENDER -->
+          
 
-    <label>Password</label>
-    <input type="password" id="password" value="password123" required>
+          <div class="form-group" >
+            <label>Speciality</label>
+            <select id="speciality">
+              <option value="" disabled selected>Select ur speciality</option>
+              <option>Cardiology</option>
+              <option>Neurology</option>
+              <option>Pediatrics</option>
+              <option>Orthopedics</option>
+              <option>Ophthalmology</option>
+              <option>Dermatology</option>s
+              <option>Psychiatry</option>
+              <option>General Practice</option>
+            </select>
+            <small class="error" id="speciality-error"></small>
+          </div>
 
-    <label>Phone Number</label>
-    <input type="text" id="phone_number" value="+21612345678" required>
 
-    <label>Speciality</label>
-    <input type="text" id="speciality" value="Cardiologie" required>
+          <div class="form-group">
+            <label>Office Address</label>
+            <input type="text" placeholder="ex.st, city, ZIP" id="address">
+            <small class="error" id="address-error"></small>
+          </div>
 
-    <label>Gender</label>
-    <select id="gender">
-      <option value="male" selected>Male</option>
-      <option value="female">Female</option>
-    </select>
+          <!-- UPLOAD -->
+          <div class="form-group form-full">
+            <label>Upload your certification</label>
+            <div class="upload-row">
+              <span class="upload-lbl">Choose a file to upload</span>
+              <button class="upload-btn" onclick="document.getElementById('cert-file').click()" id="certif">Upload a file</button>
+              <input id="cert-file" type="file" style="display:none" accept=".pdf,.jpg,.png" >
+            </div>
+              <small class="error" id="cert-file-error"></small>
+          </div>
 
-    <label>Role</label>
-    <select id="role">
-      <option value="doctor" selected>Doctor</option>
-      <option value="patient">Patient</option>
-    </select>
+          <!-- TERMS -->
+          <div class="form-group form-full">
+            <div class="terms-row">
+              <input type="checkbox" id="terms"/>
+              <label for="terms">Terms &amp; condition <a href="#">READ MORE</a></label>
+            </div>
+           <small id="terms-error" class="error"></small>
+          </div>
+        </div>
 
-    <button type="submit">Register</button>
-  </form>
+        <button class="btn-submit" type="button">SIGN UP</button>
+        <p class="login-link">Already have an account? <a href="dawini-login.html">LOGIN</a></p>
+      </div>
+    </div>
+  </main>
 
-  <div id="response" style="display:none;"></div>
 
-  <script>
-    // Auto-generate a unique email using timestamp
-    document.getElementById('email').value = `mouadh_new_${Date.now()}@example.com`;
-
-    document.getElementById('signupForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const payload = {
-        name: document.getElementById('name').value,
-        last_name: document.getElementById('last_name').value,
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value,
-        phone_number: document.getElementById('phone_number').value,
-        speciality: document.getElementById('speciality').value,
-        gender: document.getElementById('gender').value,
-        role: document.getElementById('role').value
-      };
-
-      const responseBox = document.getElementById('response');
-      responseBox.style.display = 'block';
-      responseBox.textContent = 'Sending...';
-
-      try {
-        const res = await fetch('http://127.0.0.1:8000/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await res.json();
-        responseBox.textContent = `Status: ${res.status}\n\n${JSON.stringify(data, null, 2)}`;
-      } catch (err) {
-        responseBox.textContent = `Error: ${err.message}`;
-      }
-    });
-  </script>
 </body>
 </html>

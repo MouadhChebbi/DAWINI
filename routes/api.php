@@ -34,3 +34,4 @@ Route::post('/login',AuthController::class.'@login');
 Route::post('/resetpassword',ResetPwdController::class.'@resetPassword');
 
 Route::post('/forgotpassword',ForgotPasswordController::class.'@forgotPassword');
+
