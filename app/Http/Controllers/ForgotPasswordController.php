@@ -10,6 +10,7 @@ use App\Mail\PasswordResetCode;
 
 class ForgotPasswordController extends Controller
 {
+    
         function forgotPassword(Request $request)
         {
             $user = User::where('email', $request->input('email'))->first();
@@ -33,6 +34,30 @@ class ForgotPasswordController extends Controller
             return response()->json([
                 'message' => 'Password reset link sent to your email if the email is registered',
                 'user' => $user
+            ], 200);
+        }
+        function verifyCode(Request $request)
+        {
+            $email = $request->input('email');
+            $code = $request->input('code');
+            $record = DB::table('password_reset_codes')
+                ->where('email', $email)
+                ->where('code', $code)
+                ->where('created_at', '>=', now()->subSeconds(10))//
+                ->first();
+            #delete the code from the database
+            DB::table('password_reset_codes')
+                ->where('email', $request->input('email'))
+                ->where('code', $code)
+                ->delete();
+            if (!$record) {
+                return response()->json([
+                    'message' => 'Invalid or expired code'
+                ], 400);
+            }
+            #return a success response
+            return response()->json([
+                'message' => 'Code verified successfully'
             ], 200);
         }
 }
