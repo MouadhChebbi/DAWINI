@@ -16,17 +16,6 @@ use App\Http\Controllers\ForgotPasswordController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-//Ma to5zerloosh zeied
-/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::get('home/register', function () {
-    return response()->json([
-        'message' => 'Welcome to the registration page',
-    ]);
-});
-*/
 Route::post('/register', AuthController::class.'@register');
 
 Route::post('/login',AuthController::class.'@login');

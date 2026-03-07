@@ -10,7 +10,8 @@ use App\Mail\PasswordResetCode;
 
 class ForgotPasswordController extends Controller
 {
-    
+        //___________________________________________________________________________________________________________________________________________________
+        //function to handle forgot password request and send a reset code to the user's email
         function forgotPassword(Request $request)
         {
             $user = User::where('email', $request->input('email'))->first();
@@ -36,6 +37,8 @@ class ForgotPasswordController extends Controller
                 'user' => $user
             ], 200);
         }
+        //___________________________________________________________________________________________________________________________________________________
+        //function to verify the reset code
         function verifyCode(Request $request)
         {
             $email = $request->input('email');
@@ -43,21 +46,23 @@ class ForgotPasswordController extends Controller
             $record = DB::table('password_reset_codes')
                 ->where('email', $email)
                 ->where('code', $code)
-                ->where('created_at', '>=', now()->subSeconds(10))//
+                ->where('created_at', '>=', now()->subSeconds(300))
                 ->first();
-            #delete the code from the database
-            DB::table('password_reset_codes')
-                ->where('email', $request->input('email'))
-                ->where('code', $code)
-                ->delete();
             if (!$record) {
-                return response()->json([
+                $resp=response()->json([
                     'message' => 'Invalid or expired code'
                 ], 400);
-            }
-            #return a success response
-            return response()->json([
+            }else{
+                #return a success response
+                $resp=response()->json([
                 'message' => 'Code verified successfully'
             ], 200);
+            }
+            #delete the code from the database
+            DB::table('password_reset_codes')
+                ->where('email', $email)
+                ->where('code', $code)
+                ->delete();
+            return $resp;
         }
 }

@@ -14,7 +14,6 @@
   @vite('resources/css/signup.css')
   @vite('resources/js/signup.js')
 </head>
-<script src="/public/js/signup.js"></script>
 <body>
   <div class="bg"></div>
   <div class="blob blob1"></div>

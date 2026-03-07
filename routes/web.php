@@ -21,3 +21,6 @@ Route::get('/loginpage', function () {
     return view('login');
 });
 
+Route::get('/forgotpasswordpage', function () {
+    return view('forgotpassword');
+});
