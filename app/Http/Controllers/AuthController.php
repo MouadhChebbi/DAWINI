@@ -12,6 +12,13 @@ class AuthController extends Controller
     // Registration method :
     public function register(Request $request)
     {
+        $email=$request->input('email');
+        if(User::where('email', $email)->exists()){
+            return response()->json([
+                'message' => 'Email already exists'
+            ], 409);
+        }
+        
         $user = User::create([
             'name'=> $request->input('name'),
             'last_name'=> $request->input('last_name'),
@@ -33,6 +40,7 @@ class AuthController extends Controller
                 'user_id'=>$user->id,
             ]);
         }
+        
 
         return response()->json([
             'message' => 'User registered successfully',
