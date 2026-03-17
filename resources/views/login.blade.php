@@ -4,14 +4,13 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DAWINI — Login</title>
-  @vite(['resources/js/login.js'])
-  @vite(['resources/css/login.css'])
+  @vite('resources/css/login.css')
+  @vite('resources/js/login.js')
 </head>
 <body>
 
   <!-- BACKGROUND -->
   <div class="bg-mesh"></div>
-  <div class="bg-noise"></div>
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
 
@@ -92,7 +91,7 @@
             <input type="password" id="password" placeholder="••••••••••" autocomplete="current-password"/>
             <span class="err-msg" id="err-pass">Password must be at least 8 characters.</span>
           </div>
-          <a href="/forgotpasswordpage" style="text-decoration: none;">
+          <a href="/forgotpasswordpage" class="forgot">
             <button class="forgot">Forgot your password?</button>
           </a>
           
@@ -116,7 +115,6 @@
       </div>
     </div>
   </main>
-
 
 </body>
 </html>

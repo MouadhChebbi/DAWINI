@@ -1,4 +1,3 @@
-
 /* ═══════════════════════════════════════════════
    DAWINI — login.js
    Login form validation, interactions & API
@@ -142,9 +141,9 @@ function showApiError(message) {
   clearError(emailEl, errEmail, lblEmail);
   clearError(passEl, errPass, lblPass);
   
-  // Show general error on email field (you can also create a dedicated general error element)
-  errEmail.textContent = message || 'Login failed. Please try again.';
-  showError(emailEl, errEmail, lblEmail);
+  // Show error under password field — wrong credentials relate to the password
+  errPass.textContent = message || 'Incorrect email or password. Please try again.';
+  showError(passEl, errPass, lblPass);
 }
 
 /* ── HANDLE SUCCESSFUL LOGIN ─────────────── */
@@ -215,7 +214,7 @@ function handleForgotPassword() {
     sessionStorage.setItem('reset_email', email);
   }
   
-  window.location.href = 'forgot-password.html';
+  window.location.href = '../forgot/forgot-password.html';
 }
 
 /* ── CHECK AUTH STATUS ───────────────────── */
