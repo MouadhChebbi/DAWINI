@@ -31,9 +31,7 @@ This project is built with modern web technologies to ensure a seamless experien
 - **Backend:** Laravel (PHP)
 - **Frontend:** Blade templates, Tailwind CSS, Alpine.js / Livewire
 - **Database:** MySQL
-- **Authentication:** Laravel Breeze
 - **Notifications:** Laravel Notifications (Mail, SMS)
-- **APIs:** RESTful endpoints for mobile integration (optional)
 
 ---
 
@@ -46,7 +44,7 @@ Follow these instructions to set up the project locally for development and test
 - PHP >= 8.1
 - Composer
 - Node.js & NPM
-- MySQL
+- MySQL or PostgreSQL
 - Git
 
 ### Installation
