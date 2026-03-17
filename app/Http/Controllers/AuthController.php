@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $email=$request->input('email');
-        if(User::where('email', $email)->exist()){
+        if(User::where('email', $email)->exists()){
             return response()->json([
                 'message' => 'Email already exists'
             ], 409);
