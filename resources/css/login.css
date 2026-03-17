@@ -64,7 +64,6 @@ body {
   margin-bottom: 1.4rem;
   display: block;
   padding: 0;
-  transition: opacity 0.2s;
 }
 
 .forgot:hover { opacity: 0.75; }
@@ -104,8 +103,8 @@ body {
 
 /* ── BACKGROUND MESH ───────────────────────── */
 .bg-mesh {
-  position: fixed;
-  inset: 0;
+  position: fixed;  
+  inset: 0;   /* 3abili el wa7da 3al espace keml */
   z-index: 0;
   pointer-events: none;
   background:
@@ -114,19 +113,11 @@ body {
     linear-gradient(180deg, var(--navy) 0%, #0a1826 100%);
 }
 
-.bg-noise {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");
-}
-
 /* ── ANIMATED BLOBS ────────────────────────── */
 .blob {
   position: fixed;
   border-radius: 50%;
-  filter: blur(70px);
+  filter: blur(70px);  /*tala3 akel dora ken na7iha*/
   pointer-events: none;
   z-index: 0;
 }
@@ -149,15 +140,6 @@ body {
   animation: blobB 12s ease-in-out infinite;
 }
 
-@keyframes blobA {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%       { transform: translate(22px, -26px) scale(1.05); }
-}
-
-@keyframes blobB {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%       { transform: translate(-16px, 20px) scale(1.04); }
-}
 
 /* ── NAV ───────────────────────────────────── */
 nav {
@@ -191,7 +173,6 @@ nav {
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 0.4rem 0.9rem;
-  flex: 0 1 230px;
 }
 
 .nav-search input {
@@ -265,14 +246,6 @@ main {
   position: relative;
   overflow: hidden;
   background: rgba(46, 207, 191, 0.025);
-}
-
-.panel-left::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(145deg, rgba(46, 207, 191, 0.06) 0%, transparent 55%);
-  pointer-events: none;
 }
 
 .brand {
@@ -456,12 +429,6 @@ main {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(46, 207, 191, 0.35);
 }
-
-/* ── SCROLLBAR ─────────────────────────────── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
 /* ── RESPONSIVE ────────────────────────────── */
 @media (max-width: 700px) {
   html, body { overflow: auto; }

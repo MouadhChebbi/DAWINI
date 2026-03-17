@@ -4,16 +4,15 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DAWINI — Forgot Password</title>
-  @vite(['resources/js/forgotpassword.js'])
-  @vite(['resources/css/forgotpassword.css'])
-  @vite(['resources/css/login.css'])
-
+  @vite('resources/css/login.css')
+  @vite('resources/css/forgot-password.css')
+  @vite('resources/js/forgot-password.js')
 </head>
 <body>
 
   <!-- BACKGROUND -->
   <div class="bg-mesh"></div>
-  <div class="bg-noise"></div>
+  <!-- <div class="bg-noise"></div> -->
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
 
@@ -30,8 +29,8 @@
     <div class="nav-links">
       <a href="#">Home</a>
       <a href="#">Filter Doctors</a>
-      <a href="signup.html" class="btn-pill">Sign Up</a>
-      <a href="login.html">Login</a>
+      <a href="/" class="btn-pill">Sign Up</a>
+      <a href="/loginpage">Login</a>
     </div>
   </nav>
 
@@ -42,7 +41,7 @@
 
         <!-- ── STEP 1: EMAIL ── -->
         <div class="view active" id="view-email">
-          <a href="login.html" class="back-link">
+          <a href="../login/login.html" class="back-link">
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
             Back to Login
           </a>
@@ -156,7 +155,7 @@
           <div class="success-icon">🔓</div>
           <h3>Password Reset!</h3>
           <p>Your password has been updated successfully. You can now log in.</p>
-          <a href="login.html">Back to Login</a>
+          <a href="/loginpage">Back to Login</a>
         </div>
 
       </div>
