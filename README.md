@@ -30,10 +30,8 @@ This project is built with modern web technologies to ensure a seamless experien
 
 - **Backend:** Laravel (PHP)
 - **Frontend:** Blade templates, Tailwind CSS, Alpine.js / Livewire
-- **Database:** MySQL / PostgreSQL
-- **Authentication:** Laravel Breeze / Jetstream
+- **Database:** MySQL
 - **Notifications:** Laravel Notifications (Mail, SMS)
-- **APIs:** RESTful endpoints for mobile integration (optional)
 
 ---
 

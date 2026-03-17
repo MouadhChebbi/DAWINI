@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\mail\PasswordResetCode;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,4 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('signup');
+});
+
+Route::get('/loginpage', function () {
+    return view('login');
+});
+
+Route::get('/forgotpasswordpage', function () {
+    return view('forgotpassword');
 });

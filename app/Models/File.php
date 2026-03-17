@@ -17,6 +17,7 @@ class File extends Model
         'user_id'
 
     ];
+    #define the relationship between file and user
      public function user()
     {
         return $this->belongsTo(User::class);
