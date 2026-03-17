@@ -51,5 +51,5 @@ Follow these instructions to set up the project locally for development and test
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/MouadhChebbi/dawini.git
+   git clone https://github.com/MouadhChebbi/DAWINI.git
    cd dawini
