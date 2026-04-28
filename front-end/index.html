@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dawini — Santé connectée</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== TOAST ===== -->
+<div id="toast"></div>
+
+<!-- ===================================================================== -->
+<!-- NAV                                                                     -->
+<!-- ===================================================================== -->
+<nav>
+  <a class="nav-logo" href="#" onclick="showPage('page-home')">Dawi<span>ni</span></a>
+
+  <!-- Public links -->
+  <div class="nav-links" id="nav-public">
+    <a href="#" onclick="showPage('page-home')">Accueil</a>
+    <a href="#" onclick="showPage('page-search-public')">Trouver un médecin</a>
+    <a href="#" onclick="showPage('page-login')" class="btn btn-outline" style="margin-left:.5rem">Connexion</a>
+    <a href="#" onclick="showPage('page-register')" class="btn btn-primary">S'inscrire</a>
+  </div>
+
+  <!-- Private links -->
+  <div class="nav-links" id="nav-private" style="display:none">
+    <span data-role="patient">
+      <a href="#" onclick="showPage('page-patient');loadPatientDash('search')">Trouver médecin</a>
+      <a href="#" onclick="showPage('page-patient');loadPatientDash('mes-rdv')">Mes RDV</a>
+    </span>
+    <span data-role="medecin">
+      <a href="#" onclick="showPage('page-medecin');loadMedecinDash('agenda')">Agenda</a>
+    </span>
+    <span data-role="admin">
+      <a href="#" onclick="showPage('page-admin');loadAdminDash('stats')">Admin</a>
+    </span>
+    <span style="color:var(--muted);font-size:.88rem;padding:0 .5rem" id="nav-username"></span>
+    <button class="btn btn-outline btn-sm" onclick="handleLogout()">Déconnexion</button>
+  </div>
+</nav>
+
+
+<!-- ===================================================================== -->
+<!-- PAGE: HOME                                                             -->
+<!-- ===================================================================== -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <h1>Votre santé,<br>simplifiée.</h1>
+    <p>Trouvez un médecin, prenez rendez-vous en ligne et gérez votre dossier médical en toute sécurité.</p>
+    <div class="hero-actions">
+      <button class="btn btn-hero" onclick="showPage('page-register')">Créer un compte</button>
+      <button class="btn btn-hero-outline" onclick="showPage('page-search-public')">Trouver un médecin</button>
+    </div>
+  </div>
+
+  <div class="container section">
+    <div class="section-head">
+      <h2>Tout ce dont vous avez besoin</h2>
+      <p>Une plateforme complète pour patients et médecins</p>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="feature-icon">🔍</div>
+        <div class="font-bold mb-1">Recherche intelligente</div>
+        <p class="text-muted">Trouvez un médecin par spécialité et localisation.</p>
+      </div>
+      <div class="card">
+        <div class="feature-icon">📅</div>
+        <div class="font-bold mb-1">RDV instantané</div>
+        <p class="text-muted">Consultez les créneaux disponibles et réservez en un clic.</p>
+      </div>
+      <div class="card">
+        <div class="feature-icon">📄</div>
+        <div class="font-bold mb-1">Dossier médical sécurisé</div>
+        <p class="text-muted">Accédez à vos ordonnances, analyses et comptes-rendus.</p>
+      </div>
+      <div class="card">
+        <div class="feature-icon">👨‍⚕️</div>
+        <div class="font-bold mb-1">Agenda médecin</div>
+        <p class="text-muted">Gérez vos disponibilités et consultations facilement.</p>
+      </div>
+      <div class="card">
+        <div class="feature-icon">🔐</div>
+        <div class="font-bold mb-1">Sécurisé & Privé</div>
+        <p class="text-muted">Vos données médicales sont chiffrées et protégées.</p>
+      </div>
+      <div class="card">
+        <div class="feature-icon">🏥</div>
+        <div class="font-bold mb-1">Réseau de confiance</div>
+        <p class="text-muted">Tous les médecins sont vérifiés par notre équipe admin.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#f0fdfa,#e0f2fe);padding:3rem 1.5rem;text-align:center">
+    <div class="section-head">
+      <h2>Prêt à commencer ?</h2>
+      <p>Rejoignez des milliers de patients et médecins sur Dawini</p>
+    </div>
+    <button class="btn btn-primary" style="font-size:1rem;padding:.8rem 2rem" onclick="showPage('page-register')">
+      Créer votre compte gratuitement →
+    </button>
+  </div>
+
+</div><!-- /page-home -->
+
+
+<!-- ===================================================================== -->
+<!-- PAGE: PUBLIC SEARCH                                                    -->
+<!-- ===================================================================== -->
+<div class="page" id="page-search-public">
+  <div class="container section">
+    <div class="section-head">
+      <h2>Trouver un médecin</h2>
+      <p>Recherchez parmi nos médecins vérifiés</p>
+    </div>
+    <div class="search-bar">
+      <div style="flex:1;min-width:200px">
+        <input class="form-control" id="pub-specialite" placeholder="Spécialité (ex: cardiologie)" />
+      </div>
+      <div style="flex:1;min-width:200px">
+        <input class="form-control" id="pub-ville" placeholder="Ville" />
+      </div>
+      <button class="btn btn-primary" onclick="publicSearch()">🔍 Rechercher</button>
+    </div>
+    <div id="pub-doctors-grid" class="grid-3">
+      <div class="empty-state"><div class="empty-icon">🔍</div><p>Entrez une spécialité ou une ville pour démarrer.</p></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================================================================== -->
+<!-- PAGE: LOGIN                                                            -->
+<!-- ===================================================================== -->
+<div class="page" id="page-login">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-title">Connexion</div>
+      <div class="auth-sub">Pas encore de compte ? <a class="auth-link" href="#" onclick="showPage('page-register')">S'inscrire</a></div>
+      <div class="alert alert-error" id="login-err" style="display:none"></div>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-control" id="login-email" type="email" placeholder="vous@email.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <input class="form-control" id="login-pass" type="password" placeholder="••••••••" required />
+        </div>
+        <div class="mb-3 text-center">
+          <a class="auth-link" style="font-size:.85rem" href="#" onclick="showPage('page-forgot')">Mot de passe oublié ?</a>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Se connecter</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================================================================== -->
+<!-- PAGE: REGISTER                                                         -->
+<!-- ===================================================================== -->
+<div class="page" id="page-register">
+  <div class="auth-page" style="align-items:flex-start;padding-top:2rem;padding-bottom:3rem">
+    <div class="auth-card" style="max-width:520px">
+      <div class="auth-title">Créer un compte</div>
+      <div class="auth-sub">Déjà inscrit ? <a class="auth-link" href="#" onclick="showPage('page-login')">Se connecter</a></div>
+
+      <div class="form-group">
+        <label class="form-label">Je suis…</label>
+        <div class="role-toggle">
+          <button type="button" class="role-btn selected" data-r="patient" onclick="setRole('patient')">🙋 Patient</button>
+          <button type="button" class="role-btn" data-r="medecin" onclick="setRole('medecin')">👨‍⚕️ Médecin</button>
+        </div>
+        <input type="hidden" id="reg-role" value="patient" />
+      </div>
+
+      <div class="alert alert-error" id="register-err" style="display:none"></div>
+
+      <form onsubmit="handleRegister(event)">
+        <div class="grid-2" style="gap:.8rem">
+          <div class="form-group">
+            <label class="form-label">Prénom</label>
+            <input class="form-control" id="reg-prenom" placeholder="Ahmed" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nom</label>
+            <input class="form-control" id="reg-nom" placeholder="Ben Ali" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-control" id="reg-email" type="email" placeholder="vous@email.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Téléphone</label>
+          <input class="form-control" id="reg-tel" type="tel" placeholder="+216 XX XXX XXX" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <input class="form-control" id="reg-pass" type="password" placeholder="min. 8 caractères" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirmer le mot de passe</label>
+          <input class="form-control" id="reg-pass-confirm" type="password" placeholder="••••••••" required />
+        </div>
+
+        <!-- Doctor fields -->
+        <div id="doctor-fields" style="display:none">
+          <hr class="divider" />
+          <div style="color:var(--teal);font-weight:700;font-size:.9rem;margin-bottom:1rem">Informations professionnelles</div>
+          <div class="form-group">
+            <label class="form-label">Spécialité</label>
+            <input class="form-control" id="reg-spec" placeholder="ex: Cardiologie" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Numéro RPPS</label>
+            <input class="form-control" id="reg-rpps" placeholder="11 chiffres" />
+          </div>
+          <div class="grid-2" style="gap:.8rem">
+            <div class="form-group">
+              <label class="form-label">Cabinet</label>
+              <input class="form-control" id="reg-cabinet" placeholder="Nom du cabinet" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Ville</label>
+              <input class="form-control" id="reg-ville" placeholder="Tunis" />
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-block mt-3" type="submit">Créer mon compte</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================================================================== -->
+<!-- PAGE: FORGOT PASSWORD                                                  -->
+<!-- ===================================================================== -->
+<div class="page" id="page-forgot">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-title">Mot de passe oublié</div>
+      <div class="auth-sub">Entrez votre email pour recevoir un code de vérification à 6 chiffres.</div>
+      <form onsubmit="handleForgotPass(event)">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-control" id="forgot-email" type="email" placeholder="vous@email.com" required />
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Envoyer le code</button>
+        <div class="text-center mt-3">
+          <a class="auth-link" style="font-size:.85rem" href="#" onclick="showPage('page-login')">← Retour à la connexion</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===================================================================== -->
+<!-- PAGE: VERIFY CODE                                                      -->
+<!-- ===================================================================== -->
+<div class="page" id="page-verify-code">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-title">Vérifier le code</div>
+      <div class="auth-sub">Un code à 6 chiffres a été envoyé à votre adresse email.</div>
+      <div class="alert alert-error" id="verify-err" style="display:none"></div>
+      <form onsubmit="handleVerifyCode(event)">
+        <div class="form-group">
+          <label class="form-label">Code de vérification</label>
+          <input class="form-control otp-input" id="verify-code" type="text"
+            inputmode="numeric" pattern="[0-9]{6}" maxlength="6"
+            placeholder="_ _ _ _ _ _" required autocomplete="one-time-code" />
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Valider le code</button>
+        <div class="text-center mt-3">
+          <a class="auth-link" style="font-size:.85rem" href="#" onclick="resendCode()">Renvoyer le code</a>
+          &nbsp;·&nbsp;
+          <a class="auth-link" style="font-size:.85rem" href="#" onclick="showPage('page-login')">← Connexion</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- PAGE: NEW PASSWORD                                                      -->
+<!-- ===================================================================== -->
+<div class="page" id="page-new-password">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-title">Nouveau mot de passe</div>
+      <div class="auth-sub">Choisissez un nouveau mot de passe sécurisé.</div>
+      <div class="alert alert-error" id="newpass-err" style="display:none"></div>
+      <form onsubmit="handleResetPassword(event)">
+        <div class="form-group">
+          <label class="form-label">Nouveau mot de passe</label>
+          <input class="form-control" id="new-pass" type="password" placeholder="min. 8 caractères" required minlength="8" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirmer le mot de passe</label>
+          <input class="form-control" id="new-pass-confirm" type="password" placeholder="••••••••" required minlength="8" />
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Réinitialiser le mot de passe</button>
+        <div class="text-center mt-3">
+          <a class="auth-link" style="font-size:.85rem" href="#" onclick="showPage('page-login')">← Retour à la connexion</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- PAGE: PATIENT DASHBOARD                                                -->
+<!-- ===================================================================== -->
+<div class="page" id="page-patient">
+  <div class="dash-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Patient</div>
+      <button class="sidebar-link active" data-tab="search" onclick="loadPatientDash('search')">
+        <span class="sidebar-icon">🔍</span> Trouver un médecin
+      </button>
+      <button class="sidebar-link" data-tab="mes-rdv" onclick="loadPatientDash('mes-rdv')">
+        <span class="sidebar-icon">📅</span> Mes rendez-vous
+      </button>
+      <button class="sidebar-link" data-tab="mes-docs" onclick="loadPatientDash('mes-docs')">
+        <span class="sidebar-icon">📄</span> Mes documents
+      </button>
+      <button class="sidebar-link" data-tab="profil-p" onclick="loadPatientDash('profil-p');loadPatientProfile()">
+        <span class="sidebar-icon">👤</span> Mon profil
+      </button>
+    </aside>
+
+    <!-- Content -->
+    <div class="dash-content">
+
+      <!-- TAB: SEARCH -->
+      <div class="dash-tab" id="ptab-search">
+        <div class="dash-header">
+          <div class="dash-title">Trouver un médecin</div>
+          <div class="dash-sub">Recherchez parmi nos médecins vérifiés</div>
+        </div>
+        <div class="search-bar">
+          <div style="flex:1;min-width:180px">
+            <input class="form-control" id="s-specialite" placeholder="Spécialité" />
+          </div>
+          <div style="flex:1;min-width:180px">
+            <input class="form-control" id="s-ville" placeholder="Ville" />
+          </div>
+          <button class="btn btn-primary" onclick="searchDoctors()">Rechercher</button>
+        </div>
+        <div id="doctors-grid" class="grid-3">
+          <div class="empty-state"><div class="empty-icon">🔍</div><p>Lancez une recherche pour trouver un médecin.</p></div>
+        </div>
+      </div>
+
+      <!-- TAB: MES RDV -->
+      <div class="dash-tab" id="ptab-mes-rdv" style="display:none">
+        <div class="dash-header flex justify-between items-center">
+          <div>
+            <div class="dash-title">Mes rendez-vous</div>
+            <div class="dash-sub">Historique et prochains rendez-vous</div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="loadPatientDash('search')">+ Nouveau RDV</button>
+        </div>
+        <div id="my-rdv-list"></div>
+      </div>
+
+      <!-- TAB: MES DOCS -->
+      <div class="dash-tab" id="ptab-mes-docs" style="display:none">
+        <div class="dash-header">
+          <div class="dash-title">Mes documents médicaux</div>
+          <div class="dash-sub">Ordonnances, analyses et comptes-rendus</div>
+        </div>
+        <div id="my-docs-list"></div>
+      </div>
+
+      <!-- TAB: PROFIL -->
+      <div class="dash-tab" id="ptab-profil-p" style="display:none">
+        <div class="dash-header">
+          <div class="dash-title">Mon profil</div>
+        </div>
+        <div style="max-width:480px">
+          <div class="card">
+            <form onsubmit="handleUpdateProfile(event)">
+              <div class="grid-2" style="gap:.8rem">
+                <div class="form-group">
+                  <label class="form-label">Prénom</label>
+                  <input class="form-control" id="p-prenom" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Nom</label>
+                  <input class="form-control" id="p-nom" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input class="form-control" id="p-email" type="email" disabled style="opacity:.6" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Téléphone</label>
+                <input class="form-control" id="p-tel" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Adresse</label>
+                <input class="form-control" id="p-adresse" />
+              </div>
+              <button class="btn btn-primary" type="submit">Sauvegarder</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /dash-content -->
+  </div><!-- /dash-layout -->
+</div><!-- /page-patient -->
+
+
+<!-- ===================================================================== -->
+<!-- PAGE: MEDECIN DASHBOARD                                                -->
+<!-- ===================================================================== -->
+<div class="page" id="page-medecin">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">Médecin</div>
+      <button class="sidebar-link active" data-tab="agenda" onclick="loadMedecinDash('agenda')">
+        <span class="sidebar-icon">📅</span> Mon agenda
+      </button>
+      <button class="sidebar-link" data-tab="dispos" onclick="loadMedecinDash('dispos')">
+        <span class="sidebar-icon">🗓</span> Disponibilités
+      </button>
+      <button class="sidebar-link" data-tab="blocages" onclick="loadMedecinDash('blocages');showModal('modal-blocage')">
+        <span class="sidebar-icon">🚫</span> Bloquer un créneau
+      </button>
+      <button class="sidebar-link" data-tab="docs-med" onclick="loadMedecinDash('docs-med')">
+        <span class="sidebar-icon">📄</span> Documents patients
+      </button>
+      <button class="sidebar-link" data-tab="profil-med" onclick="loadMedecinDash('profil-med')">
+        <span class="sidebar-icon">👤</span> Mon profil
+      </button>
+    </aside>
+
+    <div class="dash-content">
+
+      <!-- AGENDA -->
+      <div class="dash-tab" id="mtab-agenda">
+        <div class="dash-header">
+          <div class="dash-title">Mon agenda</div>
+          <div class="dash-sub">Rendez-vous de la semaine</div>
+        </div>
+        <div id="agenda-list"></div>
+      </div>
+
+      <!-- DISPONIBILITES -->
+      <div class="dash-tab" id="mtab-dispos" style="display:none">
+        <div class="dash-header">
+          <div class="dash-title">Mes disponibilités</div>
+          <div class="dash-sub">Configurez vos créneaux hebdomadaires</div>
+        </div>
+        <div class="card mb-4" style="max-width:520px">
+          <div class="font-bold mb-3" style="font-size:1rem">Ajouter une plage horaire</div>
+          <form onsubmit="handleAddDispo(event)">
+            <div class="grid-2" style="gap:.8rem">
+              <div class="form-group">
+                <label class="form-label">Jour</label>
+                <select class="form-control" id="dispo-jour">
+                  <option value="1">Lundi</option>
+                  <option value="2">Mardi</option>
+                  <option value="3">Mercredi</option>
+                  <option value="4">Jeudi</option>
+                  <option value="5">Vendredi</option>
+                  <option value="6">Samedi</option>
+                  <option value="7">Dimanche</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Durée créneau</label>
+                <select class="form-control" id="dispo-duree">
+                  <option value="15">15 min</option>
+                  <option value="20">20 min</option>
+                  <option value="30" selected>30 min</option>
+                  <option value="45">45 min</option>
+                  <option value="60">1h</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Heure début</label>
+                <input class="form-control" id="dispo-debut" type="time" value="09:00" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Heure fin</label>
+                <input class="form-control" id="dispo-fin" type="time" value="12:00" required />
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Ajouter</button>
+          </form>
+        </div>
+        <div id="dispos-list"></div>
+      </div>
+
+      <!-- BLOCAGES placeholder -->
+      <div class="dash-tab" id="mtab-blocages" style="display:none">
+        <div class="empty-state"><div class="empty-icon">🚫</div><p>Utilisez le bouton dans la sidebar pour bloquer un créneau.</p></div>
+      </div>
+
+      <!-- DOCUMENTS PATIENTS -->
+      <div class="dash-tab" id="mtab-docs-med" style="display:none">
+        <div class="dash-header">
+          <div class="dash-title">Documents patients</div>
+          <div class="dash-sub">Envoyez des ordonnances, analyses et comptes-rendus à vos patients</div>
+        </div>
+
+        <!-- Upload card -->
+        <div class="card mb-4" style="max-width:560px">
+          <div class="font-bold mb-3" style="font-size:1rem">📤 Envoyer un document</div>
+          <form onsubmit="handleUploadDocument(event)" id="form-upload-doc">
+
+            <div class="form-group">
+              <label class="form-label">Patient (ID)</label>
+              <input class="form-control" id="doc-patient-id" type="number" min="1" placeholder="ID du patient" required />
+              <div class="text-muted" style="font-size:.8rem;margin-top:.3rem">
+                Cliquez "📄 Document" depuis l'agenda pour remplir automatiquement.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Rendez-vous (ID) <span style="color:var(--muted);font-weight:400">(optionnel)</span></label>
+              <input class="form-control" id="doc-rdv-id" type="number" min="1" placeholder="Laissez vide si non lié à un RDV" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Titre du document</label>
+              <input class="form-control" id="doc-titre" placeholder="ex: Ordonnance du 26/04/2026" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Type</label>
+              <select class="form-control" id="doc-type" required>
+                <option value="">Sélectionner…</option>
+                <option value="ordonnance">Ordonnance</option>
+                <option value="analyse">Analyse</option>
+                <option value="compte_rendu">Compte-rendu</option>
+                <option value="autre">Autre</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Fichier</label>
+              <input class="form-control" id="doc-file" type="file"
+                accept=".pdf,.jpg,.jpeg,.png"
+                required style="padding:.4rem .7rem;cursor:pointer" />
+              <div class="text-muted" style="font-size:.8rem;margin-top:.3rem">PDF, JPG ou PNG · max 10 MB</div>
+            </div>
+
+            <div class="alert alert-error" id="doc-err" style="display:none"></div>
+            <button class="btn btn-primary" type="submit">Envoyer le document</button>
+          </form>
+        </div>
+
+        <!-- Viewer card -->
+        <div class="card" style="max-width:560px">
+          <div class="font-bold mb-3" style="font-size:1rem">🔍 Voir les documents d'un patient</div>
+          <div class="flex gap-2 mb-3">
+            <input class="form-control" id="doc-view-patient-id" type="number" min="1"
+              placeholder="ID du patient" style="max-width:200px" />
+            <button class="btn btn-outline btn-sm" onclick="loadPatientDocs()">Charger</button>
+          </div>
+          <div id="patient-docs-list">
+            <div class="empty-state"><div class="empty-icon">🔍</div><p>Entrez un ID patient pour voir ses documents.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFIL MEDECIN -->
+      <div class="dash-tab" id="mtab-profil-med" style="display:none">
+        <div class="dash-header">
+          <div class="dash-title">Mon profil professionnel</div>
+        </div>
+        <div style="max-width:520px">
+          <div class="card">
+            <form onsubmit="handleUpdateMedecinProfile(event)">
+              <div class="grid-2" style="gap:.8rem">
+                <div class="form-group">
+                  <label class="form-label">Prénom</label>
+                  <input class="form-control" id="mp-prenom" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Nom</label>
+                  <input class="form-control" id="mp-nom" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input class="form-control" id="mp-email" disabled style="opacity:.6" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Téléphone</label>
+                <input class="form-control" id="mp-tel" />
+              </div>
+              <hr class="divider" />
+              <div style="color:var(--teal);font-weight:700;margin-bottom:.8rem">Informations professionnelles</div>
+              <div class="form-group">
+                <label class="form-label">Spécialité</label>
+                <input class="form-control" id="mp-spec" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Numéro RPPS</label>
+                <input class="form-control" id="mp-rpps" />
+              </div>
+              <div class="grid-2" style="gap:.8rem">
+                <div class="form-group">
+                  <label class="form-label">Cabinet</label>
+                  <input class="form-control" id="mp-cabinet" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Ville</label>
+                  <input class="form-control" id="mp-ville" />
+                </div>
+              </div>
+              <button class="btn btn-primary" type="submit">Sauvegarder</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /page-medecin -->
+
+
+<!-- ===================================================================== -->
+<!-- PAGE: ADMIN DASHBOARD                                                  -->
+<!-- ===================================================================== -->
+<div class="page" id="page-admin">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">Administration</div>
+      <button class="sidebar-link active" data-tab="stats" onclick="loadAdminDash('stats')">
+        <span class="sidebar-icon">📊</span> Tableau de bord
+      </button>
+      <button class="sidebar-link" data-tab="patients" onclick="loadAdminDash('patients')">
+        <span class="sidebar-icon">👤</span> Patients
+      </button>
+      <button class="sidebar-link" data-tab="medecins" onclick="loadAdminDash('medecins')">
+        <span class="sidebar-icon">👨‍⚕️</span> Médecins
+      </button>
+      <button class="sidebar-link" data-tab="users" onclick="loadAdminDash('users')">
+        <span class="sidebar-icon">⚙️</span> Tous les utilisateurs
+      </button>
+    </aside>
+
+    <div class="dash-content">
+
+      <!-- STATS -->
+      <div class="dash-tab" id="atab-stats">
+        <div class="dash-header">
+          <div class="dash-title">Tableau de bord</div>
+          <div class="dash-sub">Vue d'ensemble de la plateforme</div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">👤</div>
+            <div class="stat-val" id="stat-patients">–</div>
+            <div class="stat-label">Patients</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👨‍⚕️</div>
+            <div class="stat-val" id="stat-medecins">–</div>
+            <div class="stat-label">Médecins actifs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⏳</div>
+            <div class="stat-val" id="stat-pending">–</div>
+            <div class="stat-label">En attente validation</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-val" id="stat-rdv-total">–</div>
+            <div class="stat-label">RDV total</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-val" id="stat-rdv-conf">–</div>
+            <div class="stat-label">Confirmés</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">❌</div>
+            <div class="stat-val" id="stat-rdv-ann">–</div>
+            <div class="stat-label">Annulés</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📆</div>
+            <div class="stat-val" id="stat-rdv-mois">–</div>
+            <div class="stat-label">Ce mois-ci</div>
+          </div>
+        </div>
+        <div class="card" style="max-width:460px">
+          <div class="font-bold mb-3">Actions rapides</div>
+          <div class="flex gap-3" style="flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" onclick="showModal('modal-create-patient')">+ Créer patient</button>
+            <button class="btn btn-outline btn-sm" onclick="loadAdminDash('medecins')">Valider médecins</button>
+            <button class="btn btn-outline btn-sm" onclick="loadAdminDash('users')">Gérer rôles</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PATIENTS -->
+      <div class="dash-tab" id="atab-patients" style="display:none">
+        <div class="dash-header flex justify-between items-center">
+          <div>
+            <div class="dash-title">Gestion des patients</div>
+            <div class="dash-sub">Créer, modifier et désactiver des comptes</div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="showModal('modal-create-patient')">+ Créer patient</button>
+        </div>
+        <div class="flex gap-2 mb-3">
+          <input class="form-control" id="patient-search" placeholder="Rechercher par nom ou email…" style="max-width:320px" />
+          <button class="btn btn-outline btn-sm" onclick="loadAdminPatients(document.getElementById('patient-search').value)">Filtrer</button>
+        </div>
+        <div id="admin-patients-table"></div>
+      </div>
+
+      <!-- MEDECINS -->
+      <div class="dash-tab" id="atab-medecins" style="display:none">
+        <div class="dash-header">
+          <div class="dash-title">Gestion des médecins</div>
+          <div class="dash-sub">Valider et gérer les comptes médecins</div>
+        </div>
+        <div id="admin-medecins-table"></div>
+      </div>
+
+      <!-- USERS -->
+      <div class="dash-tab" id="atab-users" style="display:none">
+        <div class="dash-header">
+          <div class="dash-title">Tous les utilisateurs</div>
+          <div class="dash-sub">Gérer les rôles et accès</div>
+        </div>
+        <div id="admin-users-table"></div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /page-admin -->
+
+
+<!-- ===================================================================== -->
+<!-- MODALS                                                                 -->
+<!-- ===================================================================== -->
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="modal-booking">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Prendre rendez-vous</div>
+      <button class="modal-close" onclick="closeModal('modal-booking')">✕</button>
+    </div>
+    <div class="font-bold text-teal mb-3" id="book-doctor-name"></div>
+    <input type="hidden" id="book-medecin-id" />
+    <input type="hidden" id="book-selected-slot" />
+    <form onsubmit="handleBooking(event)">
+      <div class="form-group">
+        <label class="form-label">Choisir une date</label>
+        <input class="form-control" id="book-date" type="date" onchange="loadSlots()" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Créneaux disponibles</label>
+        <div id="book-slots"><p class="text-muted">Sélectionnez une date d'abord.</p></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Motif de consultation</label>
+        <input class="form-control" id="book-motif" placeholder="ex: Douleurs thoraciques" />
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Confirmer le rendez-vous</button>
+    </form>
+  </div>
+</div>
+
+<!-- BLOCAGE MODAL -->
+<div class="modal-overlay" id="modal-blocage">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Bloquer un créneau</div>
+      <button class="modal-close" onclick="closeModal('modal-blocage')">✕</button>
+    </div>
+    <form onsubmit="handleAddBlocage(event)">
+      <div class="form-group">
+        <label class="form-label">Début</label>
+        <input class="form-control" id="bloc-debut" type="datetime-local" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Fin</label>
+        <input class="form-control" id="bloc-fin" type="datetime-local" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Raison (optionnel)</label>
+        <input class="form-control" id="bloc-raison" placeholder="Congé, formation…" />
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Bloquer</button>
+    </form>
+  </div>
+</div>
+
+<!-- CREATE PATIENT MODAL (Admin) -->
+<div class="modal-overlay" id="modal-create-patient">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Créer un patient</div>
+      <button class="modal-close" onclick="closeModal('modal-create-patient')">✕</button>
+    </div>
+    <form onsubmit="handleAdminCreatePatient(event)">
+      <div class="grid-2" style="gap:.8rem">
+        <div class="form-group">
+          <label class="form-label">Prénom</label>
+          <input class="form-control" id="ap-prenom" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nom</label>
+          <input class="form-control" id="ap-nom" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-control" id="ap-email" type="email" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mot de passe</label>
+        <input class="form-control" id="ap-pass" type="password" placeholder="min. 8 caractères" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Téléphone</label>
+        <input class="form-control" id="ap-tel" />
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Créer le patient</button>
+    </form>
+  </div>
+</div>
+
+
+<script src="app.js"></script>
+
+<script>
+// Public search (no auth needed)
+async function publicSearch() {
+  const spec  = document.getElementById('pub-specialite').value;
+  const ville = document.getElementById('pub-ville').value;
+  const grid  = document.getElementById('pub-doctors-grid');
+  grid.innerHTML = '<p class="text-muted">Recherche en cours…</p>';
+  try {
+    const params = {};
+    if (spec)  params.specialite = spec;
+    if (ville) params.ville = ville;
+    const res = await Api.searchDoctors(params);
+    const doctors = res.data || res;
+    if (!doctors.length) {
+      grid.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>Aucun médecin trouvé.</p></div>';
+      return;
+    }
+    grid.innerHTML = doctors.map(d => `
+      <div class="doctor-card">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="doctor-avatar">${initials(d.nom, d.prenom)}</div>
+          <div>
+            <div class="doctor-name">Dr ${d.prenom} ${d.nom}</div>
+            <div class="doctor-spec">${d.doctor_profile?.specialite || '–'}</div>
+          </div>
+        </div>
+        <div class="doctor-meta">📍 ${d.doctor_profile?.ville || 'Non renseigné'}</div>
+        <div class="doctor-meta">🏥 ${d.doctor_profile?.cabinet || 'Cabinet non renseigné'}</div>
+        <button class="btn btn-outline btn-sm mt-3" onclick="showPage('page-register')">Prendre RDV →</button>
+      </div>
+    `).join('');
+  } catch(ex) {
+    grid.innerHTML = `<p class="text-muted">${getErrMsg(ex)}</p>`;
+  }
+}
+</script>
+</body>
+</html>
